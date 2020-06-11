@@ -35,6 +35,7 @@ class ChangeCase {
         const changeToCapitalCase = this.createFix(document, range, "Capital Case", text);
         const changeToLowerCase = this.createFix(document, range, "Lower Case", text);
         const changeToKebabCase = this.createFix(document, range, "Kebab Case", text);
+        const changeToConstantCase = this.createFix(document, range, "Constant Case", text);
         changeToCamelCase.isPreferred = true;
         return [
             changeToCamelCase,
@@ -42,7 +43,16 @@ class ChangeCase {
             changeToKebabCase,
             changeToCapitalCase,
             changeToLowerCase,
+            changeToConstantCase,
         ];
+    }
+    toConstantCase(text) {
+        // @ts-ignore
+        var constantCaseText = text
+            .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+            .map((x) => x.toUpperCase())
+            .join("_");
+        return constantCaseText;
     }
     toSnakeCase(text) {
         // @ts-ignore
@@ -78,6 +88,8 @@ class ChangeCase {
                 return text.toUpperCase();
             case "Lower Case":
                 return text.toLowerCase();
+            case "Constant Case":
+                return this.toConstantCase(text);
         }
     }
     createFix(document, range, emoji, text) {
