@@ -32,18 +32,20 @@ class ChangeCase {
         var text = editor.document.getText(selection);
         const changeToSnakeCase = this.createFix(document, range, "Snake Case", text);
         const changeToCamelCase = this.createFix(document, range, "Camel Case", text);
-        const changeToCapitalCase = this.createFix(document, range, "Capital Case", text);
-        const changeToLowerCase = this.createFix(document, range, "Lower Case", text);
+        const changeToCapitalCase = this.createFix(document, range, "Upper Case", text);
+        const changeToLowerCase = this.createFix(document, range, "Flat Case", text);
         const changeToKebabCase = this.createFix(document, range, "Kebab Case", text);
         const changeToConstantCase = this.createFix(document, range, "Constant Case", text);
+        const changeToPascalCase = this.createFix(document, range, "Pascal Case", text);
         changeToCamelCase.isPreferred = true;
         return [
-            changeToCamelCase,
             changeToSnakeCase,
+            changeToCamelCase,
             changeToKebabCase,
             changeToCapitalCase,
             changeToLowerCase,
             changeToConstantCase,
+            changeToPascalCase,
         ];
     }
     toConstantCase(text) {
@@ -63,7 +65,8 @@ class ChangeCase {
         return snakeCaseText;
     }
     toCamelCase(text) {
-        var camelCaseText = text
+        var covertToKebab = this.toKebabCase(text);
+        var camelCaseText = covertToKebab
             .toLowerCase()
             .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
         return camelCaseText;
@@ -76,24 +79,37 @@ class ChangeCase {
             .join("-");
         return kebabCaseText;
     }
+    toPascalCase(text) {
+        var covertToKebab = this.toKebabCase(text);
+        // @ts-ignore
+        var pascalCaseText = covertToKebab
+            .match(/[a-z]+/gi)
+            .map(function (word) {
+            return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+        })
+            .join("");
+        return pascalCaseText;
+    }
     mapFunctionToArguments(emoji, text) {
         switch (emoji) {
+            case "Pascal Case":
+                return this.toPascalCase(text);
             case "Snake Case":
                 return this.toSnakeCase(text);
             case "Camel Case":
                 return this.toCamelCase(text);
             case "Kebab Case":
                 return this.toKebabCase(text);
-            case "Capital Case":
+            case "Upper Case":
                 return text.toUpperCase();
-            case "Lower Case":
+            case "Flat Case":
                 return text.toLowerCase();
             case "Constant Case":
                 return this.toConstantCase(text);
         }
     }
     createFix(document, range, emoji, text) {
-        const fix = new vscode.CodeAction(`Change Case to ${emoji}`, vscode.CodeActionKind.QuickFix);
+        const fix = new vscode.CodeAction(`Change to ${emoji}`, vscode.CodeActionKind.QuickFix);
         fix.edit = new vscode.WorkspaceEdit();
         fix.edit.replace(document.uri, new vscode.Range(range.start, range.end), 
         // @ts-ignore

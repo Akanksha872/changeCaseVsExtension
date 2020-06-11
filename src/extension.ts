@@ -60,14 +60,14 @@ export class ChangeCase implements vscode.CodeActionProvider {
     const changeToCapitalCase = this.createFix(
       document,
       range,
-      "Capital Case",
+      "Upper Case",
       text
     );
 
     const changeToLowerCase = this.createFix(
       document,
       range,
-      "Lower Case",
+      "Flat Case",
       text
     );
 
@@ -84,14 +84,23 @@ export class ChangeCase implements vscode.CodeActionProvider {
       "Constant Case",
       text
     );
+
+    const changeToPascalCase = this.createFix(
+      document,
+      range,
+      "Pascal Case",
+      text
+    );
+
     changeToCamelCase.isPreferred = true;
     return [
-      changeToCamelCase,
       changeToSnakeCase,
+      changeToCamelCase,
       changeToKebabCase,
       changeToCapitalCase,
       changeToLowerCase,
       changeToConstantCase,
+      changeToPascalCase,
     ];
   }
 
@@ -118,7 +127,8 @@ export class ChangeCase implements vscode.CodeActionProvider {
   }
 
   toCamelCase(text: string) {
-    var camelCaseText = text
+    var covertToKebab = this.toKebabCase(text);
+    var camelCaseText = covertToKebab
       .toLowerCase()
       .replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
     return camelCaseText;
@@ -135,17 +145,31 @@ export class ChangeCase implements vscode.CodeActionProvider {
     return kebabCaseText;
   }
 
+  toPascalCase(text: string) {
+    var covertToKebab = this.toKebabCase(text);
+    // @ts-ignore
+    var pascalCaseText = covertToKebab
+      .match(/[a-z]+/gi)
+      .map(function (word) {
+        return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+      })
+      .join("");
+    return pascalCaseText;
+  }
+
   mapFunctionToArguments(emoji: string, text: string) {
     switch (emoji) {
+      case "Pascal Case":
+        return this.toPascalCase(text);
       case "Snake Case":
         return this.toSnakeCase(text);
       case "Camel Case":
         return this.toCamelCase(text);
       case "Kebab Case":
         return this.toKebabCase(text);
-      case "Capital Case":
+      case "Upper Case":
         return text.toUpperCase();
-      case "Lower Case":
+      case "Flat Case":
         return text.toLowerCase();
       case "Constant Case":
         return this.toConstantCase(text);
@@ -159,7 +183,7 @@ export class ChangeCase implements vscode.CodeActionProvider {
     text: string
   ): vscode.CodeAction {
     const fix = new vscode.CodeAction(
-      `Change Case to ${emoji}`,
+      `Change to ${emoji}`,
       vscode.CodeActionKind.QuickFix
     );
     fix.edit = new vscode.WorkspaceEdit();
