@@ -2,8 +2,12 @@
   "name": "case-change",
   "displayName": "Case Change",
   "publisher": "AkankshaSingh872",
-  "description": "It will change the selected text case to Snakecase, Camelcase or PascalCase",
+  "description": "It will change the selected text case to Snakecase, Camelcase, KebabCase, UpperCase or LowerCase",
   "version": "0.0.1",
+  "icon": "icon.png",
+  "author": {
+    "name": "Akanksha Singh"
+  },
   "engines": {
     "vscode": "^1.45.0"
   },
@@ -45,5 +49,9 @@
     "mocha": "^7.1.2",
     "typescript": "^3.8.3",
     "vscode-test": "^1.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Akanksha872/changeCaseVsExtension.git"
   }
 }
