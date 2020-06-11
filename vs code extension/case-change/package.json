@@ -3,7 +3,7 @@
   "displayName": "Case Change",
   "publisher": "AkankshaSingh872",
   "description": "It will change the selected text case to Snakecase, Camelcase, KebabCase, UpperCase or LowerCase",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "icon": "icon.png",
   "author": {
     "name": "Akanksha Singh"
