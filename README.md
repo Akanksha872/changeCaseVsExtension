@@ -18,7 +18,7 @@ This extension allows you to convert the selected text into different case. Supp
 **1. Select any text from the file, You will see an left side icon for options**\
 \
 ![Alt text](https://i.ibb.co/xJDBGjc/image1.png) \
-**2. Click on the icon, it will give the options on chnage the case**\
+**2. Click on the icon, it will give the options on change the case**\
 \
 ![Alt text](https://i.ibb.co/mtz8khh/image2.png)\
 **3. Select any option from the dropdown**\
