@@ -2,15 +2,19 @@
 
 This extension allows you to convert the selected text into different case. Supported Cases are:
 
-1. Snake Case
-2. Camel Case
-3. Kebab Case
-4. Upper Case
-5. Lower Case
-6. Constant Case
+```css
+1. Snake Case - (snake_case)
+2. Camel Case-  (camelCase)
+3. Kebab Case -(kebab-case)
+4. Upper Case- (UPPERCASE)
+5. Flat Case - (flatcase)
+6. Constant Case- (CONSTANT_CASE)
+7. Pascal Case-  (PascalCase)
+```
 
 ## **How to Use it**
 
+\
 **1. Select any text from the file, You will see an left side icon for options**\
 \
 ![Alt text](https://i.ibb.co/t2vNzwG/image1.png) \
@@ -34,3 +38,11 @@ This extension allows you to convert the selected text into different case. Supp
 Initial release of Change Case
 
 **Enjoy!**
+
+```
+
+```
+
+```
+
+```
