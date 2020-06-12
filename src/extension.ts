@@ -157,6 +157,16 @@ export class ChangeCase implements vscode.CodeActionProvider {
     return pascalCaseText;
   }
 
+  toFlatCase(text: string) {
+    var covertToCamel = this.toCamelCase(text);
+    return covertToCamel.toLowerCase();
+  }
+
+  toUpperCase(text: string) {
+    var covertToCamel = this.toCamelCase(text);
+    return covertToCamel.toUpperCase();
+  }
+
   mapFunctionToArguments(emoji: string, text: string) {
     switch (emoji) {
       case "Pascal Case":
@@ -168,9 +178,9 @@ export class ChangeCase implements vscode.CodeActionProvider {
       case "Kebab Case":
         return this.toKebabCase(text);
       case "Upper Case":
-        return text.toUpperCase();
+        return this.toUpperCase(text);
       case "Flat Case":
-        return text.toLowerCase();
+        return this.toFlatCase(text);
       case "Constant Case":
         return this.toConstantCase(text);
     }
