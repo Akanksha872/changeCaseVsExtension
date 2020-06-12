@@ -38,9 +38,8 @@ export class ChangeCase implements vscode.CodeActionProvider {
   ): vscode.CodeAction[] | undefined {
     var editor = vscode.window.activeTextEditor;
     if (!editor) {
-      return; // No open text editor
+      return;
     }
-
     var selection = editor.selection;
     var text = editor.document.getText(selection);
 
@@ -167,8 +166,8 @@ export class ChangeCase implements vscode.CodeActionProvider {
     return covertToCamel.toUpperCase();
   }
 
-  mapFunctionToArguments(emoji: string, text: string) {
-    switch (emoji) {
+  mapFunctionToArguments(selectedCase: string, text: string) {
+    switch (selectedCase) {
       case "Pascal Case":
         return this.toPascalCase(text);
       case "Snake Case":
@@ -189,11 +188,11 @@ export class ChangeCase implements vscode.CodeActionProvider {
   private createFix(
     document: vscode.TextDocument,
     range: vscode.Range,
-    emoji: string,
+    selectedCase: string,
     text: string
   ): vscode.CodeAction {
     const fix = new vscode.CodeAction(
-      `Change to ${emoji}`,
+      `Change to ${selectedCase}`,
       vscode.CodeActionKind.QuickFix
     );
     fix.edit = new vscode.WorkspaceEdit();
@@ -201,7 +200,7 @@ export class ChangeCase implements vscode.CodeActionProvider {
       document.uri,
       new vscode.Range(range.start, range.end),
       // @ts-ignore
-      this.mapFunctionToArguments(emoji, text)
+      this.mapFunctionToArguments(selectedCase, text)
     );
 
     return fix;
