@@ -90,6 +90,14 @@ class ChangeCase {
             .join("");
         return pascalCaseText;
     }
+    toFlatCase(text) {
+        var covertToCamel = this.toCamelCase(text);
+        return covertToCamel.toLowerCase();
+    }
+    toUpperCase(text) {
+        var covertToCamel = this.toCamelCase(text);
+        return covertToCamel.toUpperCase();
+    }
     mapFunctionToArguments(emoji, text) {
         switch (emoji) {
             case "Pascal Case":
@@ -101,9 +109,9 @@ class ChangeCase {
             case "Kebab Case":
                 return this.toKebabCase(text);
             case "Upper Case":
-                return text.toUpperCase();
+                return this.toUpperCase(text);
             case "Flat Case":
-                return text.toLowerCase();
+                return this.toFlatCase(text);
             case "Constant Case":
                 return this.toConstantCase(text);
         }
