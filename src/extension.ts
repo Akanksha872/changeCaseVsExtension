@@ -166,7 +166,7 @@ export class ChangeCase implements vscode.CodeActionProvider {
     return covertToCamel.toUpperCase();
   }
 
-  mapFunctionToArguments(selectedCase: string, text: string) {
+  mapFunctionToArguments(selectedCase: string, text: string): string {
     switch (selectedCase) {
       case "Pascal Case":
         return this.toPascalCase(text);
@@ -182,6 +182,8 @@ export class ChangeCase implements vscode.CodeActionProvider {
         return this.toFlatCase(text);
       case "Constant Case":
         return this.toConstantCase(text);
+      default:
+        return "Errors";
     }
   }
 
@@ -196,13 +198,21 @@ export class ChangeCase implements vscode.CodeActionProvider {
       vscode.CodeActionKind.QuickFix
     );
     fix.edit = new vscode.WorkspaceEdit();
-    fix.edit.replace(
-      document.uri,
-      new vscode.Range(range.start, range.end),
-      // @ts-ignore
-      this.mapFunctionToArguments(selectedCase, text)
-    );
-
+    var editor = vscode.window.activeTextEditor;
+    if (editor) {
+      const selections: vscode.Selection[] = editor.selections;
+      editor.edit((textSelected) => {
+        for (const selection of selections) {
+          if (fix.edit) {
+            fix.edit.replace(
+              document.uri,
+              selection,
+              this.mapFunctionToArguments(selectedCase, text)
+            );
+          }
+        }
+      });
+    }
     return fix;
   }
 }

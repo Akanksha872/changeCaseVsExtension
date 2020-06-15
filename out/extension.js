@@ -26,7 +26,7 @@ class ChangeCase {
     provideCodeActions(document, range) {
         var editor = vscode.window.activeTextEditor;
         if (!editor) {
-            return; // No open text editor
+            return;
         }
         var selection = editor.selection;
         var text = editor.document.getText(selection);
@@ -98,8 +98,8 @@ class ChangeCase {
         var covertToCamel = this.toCamelCase(text);
         return covertToCamel.toUpperCase();
     }
-    mapFunctionToArguments(emoji, text) {
-        switch (emoji) {
+    mapFunctionToArguments(selectedCase, text) {
+        switch (selectedCase) {
             case "Pascal Case":
                 return this.toPascalCase(text);
             case "Snake Case":
@@ -114,14 +114,24 @@ class ChangeCase {
                 return this.toFlatCase(text);
             case "Constant Case":
                 return this.toConstantCase(text);
+            default:
+                return "Errors";
         }
     }
-    createFix(document, range, emoji, text) {
-        const fix = new vscode.CodeAction(`Change to ${emoji}`, vscode.CodeActionKind.QuickFix);
+    createFix(document, range, selectedCase, text) {
+        const fix = new vscode.CodeAction(`Change to ${selectedCase}`, vscode.CodeActionKind.QuickFix);
         fix.edit = new vscode.WorkspaceEdit();
-        fix.edit.replace(document.uri, new vscode.Range(range.start, range.end), 
-        // @ts-ignore
-        this.mapFunctionToArguments(emoji, text));
+        var editor = vscode.window.activeTextEditor;
+        if (editor) {
+            const selections = editor.selections;
+            editor.edit((textSelected) => {
+                for (const selection of selections) {
+                    if (fix.edit) {
+                        fix.edit.replace(document.uri, selection, this.mapFunctionToArguments(selectedCase, text));
+                    }
+                }
+            });
+        }
         return fix;
     }
 }

@@ -17,17 +17,19 @@ This extension allows you to convert the selected text into different case. Supp
 \
 **1. Select any text from the file, You will see an left side icon for options**\
 \
-![Alt text](https://i.ibb.co/xJDBGjc/image1.png) \
+![Alt text](https://i.ibb.co/QYPcP1K/new-Image1.png)
+
+> **NOTE**: If you want to change all the occurance of the selected Text, use **Ctrl+Shift+L** or **Cmd+Shift+L**(on Mac) after selection
+
 **2. Click on the icon, it will give the options on change the case**\
-\
-![Alt text](https://i.ibb.co/mtz8khh/image2.png)\
-**3. Select any option from the dropdown**\
-\
-![Alt text](https://i.ibb.co/jLzs9vp/image3.png)\
-**4. The selected text case will gets changed**\
-\
-![Alt text](https://i.ibb.co/q7N1J8M/image4.png)
-\
+ \
+ ![Alt text](https://i.ibb.co/NVczDTW/new-Image2.png)\
+ **3. Select any option from the dropdown**\
+ \
+ ![Alt text](https://i.ibb.co/kKy5L0T/new-Image3.png)\
+ **4. The selected text case will gets changed**\
+ \
+ ![Alt text](https://i.ibb.co/ckXWW4h/new-Image4.png)
 
 > Language Supported: javascript, typescript, javascriptreact, typescriptreact, html, css, less, scss, sass, python, json, markdown
 
