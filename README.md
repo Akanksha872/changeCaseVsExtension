@@ -10,6 +10,9 @@ This extension allows you to convert the selected text into different case. Supp
 5. Flat Case - (flatcase)
 6. Constant Case- (CONSTANT_CASE)
 7. Pascal Case-  (PascalCase)
+8. Title Case- (Title Case)
+9. Capitalize Case- (CAPITALIZE CASE)
+10. Lower Case- (lower case)
 ```
 
 ## **How to Use it**
@@ -17,19 +20,17 @@ This extension allows you to convert the selected text into different case. Supp
 \
 **1. Select any text from the file, You will see an left side icon for options**\
 \
-![Alt text](https://i.ibb.co/QYPcP1K/new-Image1.png)
+![Alt text](https://i.ibb.co/rZQYspH/img1.png)
 
 > **NOTE**: If you want to change all the occurance of the selected Text, use **Ctrl+Shift+L** or **Cmd+Shift+L**(on Mac) after selection
 
-**2. Click on the icon, it will give the options on change the case**\
+**2. Click on the icon, it will give the options on change the case and select any option from the dropdown**\
  \
- ![Alt text](https://i.ibb.co/NVczDTW/new-Image2.png)\
- **3. Select any option from the dropdown**\
+ ![Alt text](https://i.ibb.co/VvYHQ45/img2.png)\
+
+**3. The selected text case will gets changed**\
  \
- ![Alt text](https://i.ibb.co/kKy5L0T/new-Image3.png)\
- **4. The selected text case will gets changed**\
- \
- ![Alt text](https://i.ibb.co/ckXWW4h/new-Image4.png)
+ ![Alt text](https://i.ibb.co/yV0JS8K/img3.png)
 
 > Language Supported: javascript, typescript, javascriptreact, typescriptreact, html, css, less, scss, sass, python, json, markdown
 
@@ -39,12 +40,16 @@ This extension allows you to convert the selected text into different case. Supp
 
 Initial release of Change Case
 
+### 0.2.2
+
+Added FlatCase and UpperCase
+
+### 0.3.0
+
+Added Title Case, Capitalize Case and Lower Case
+
+### 0.3.4
+
+Fixed minor bugs
+
 **Enjoy!**
-
-```
-
-```
-
-```
-
-```

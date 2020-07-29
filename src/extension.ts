@@ -91,6 +91,27 @@ export class ChangeCase implements vscode.CodeActionProvider {
       text
     );
 
+    const changeToTitleCase = this.createFix(
+      document,
+      range,
+      "Title Case",
+      text
+    );
+
+    const changeToCapitalizeCase = this.createFix(
+      document,
+      range,
+      "Capitalize Case",
+      text
+    );
+
+    const changeToLowerCaseWithSpaces = this.createFix(
+      document,
+      range,
+      "Lower Case",
+      text
+    );
+
     changeToCamelCase.isPreferred = true;
     return [
       changeToSnakeCase,
@@ -100,26 +121,47 @@ export class ChangeCase implements vscode.CodeActionProvider {
       changeToLowerCase,
       changeToConstantCase,
       changeToPascalCase,
+      changeToTitleCase,
+      changeToCapitalizeCase,
+      changeToLowerCaseWithSpaces,
     ];
   }
 
   toConstantCase(text: string) {
-    // @ts-ignore
-    var constantCaseText = text
-      .match(
+    const seperatorArray = ["_", "-", " "];
+    let seperatedTextArray;
+    for (let i = 0; i < seperatorArray.length; i++) {
+      if (text.split(seperatorArray[i]).length > 1) {
+        seperatedTextArray = text.split(seperatorArray[i]);
+      }
+    }
+    if (!seperatedTextArray) {
+      seperatedTextArray = text.match(
         /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
-      )
+      );
+    }
+    // @ts-ignore
+    var constantCaseText = seperatedTextArray
       .map((x) => x.toUpperCase())
       .join("_");
     return constantCaseText;
   }
 
   toSnakeCase(text: string) {
-    // @ts-ignore
-    var snakeCaseText = text
-      .match(
+    const seperatorArray = ["_", "-", " "];
+    let seperatedTextArray;
+    for (let i = 0; i < seperatorArray.length; i++) {
+      if (text.split(seperatorArray[i]).length > 1) {
+        seperatedTextArray = text.split(seperatorArray[i]);
+      }
+    }
+    if (!seperatedTextArray) {
+      seperatedTextArray = text.match(
         /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
-      )
+      );
+    }
+    // @ts-ignore
+    var snakeCaseText = seperatedTextArray
       .map((x) => x.toLowerCase())
       .join("_");
     return snakeCaseText;
@@ -134,11 +176,20 @@ export class ChangeCase implements vscode.CodeActionProvider {
   }
 
   toKebabCase(text: string) {
-    // @ts-ignore
-    var kebabCaseText = text
-      .match(
+    const seperatorArray = ["_", "-", " "];
+    let seperatedTextArray;
+    for (let i = 0; i < seperatorArray.length; i++) {
+      if (text.split(seperatorArray[i]).length > 1) {
+        seperatedTextArray = text.split(seperatorArray[i]);
+      }
+    }
+    if (!seperatedTextArray) {
+      seperatedTextArray = text.match(
         /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
-      )
+      );
+    }
+    // @ts-ignore
+    var kebabCaseText = seperatedTextArray
       .map((x) => x.toLowerCase())
       .join("-");
     return kebabCaseText;
@@ -166,6 +217,72 @@ export class ChangeCase implements vscode.CodeActionProvider {
     return covertToCamel.toUpperCase();
   }
 
+  toTitleCase(text: string) {
+    const seperatorArray = ["_", "-", " "];
+    let seperatedTextArray;
+    for (let i = 0; i < seperatorArray.length; i++) {
+      if (text.split(seperatorArray[i]).length > 1) {
+        seperatedTextArray = text.split(seperatorArray[i]);
+      }
+    }
+    if (!seperatedTextArray) {
+      seperatedTextArray = text.match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+      );
+    }
+    // @ts-ignore
+    var titleCaseText = seperatedTextArray
+      .map(function (word) {
+        return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+      })
+      .join(" ");
+    return titleCaseText;
+  }
+
+  toCapitalizeCase(text: string) {
+    const seperatorArray = ["_", "-", " "];
+    let seperatedTextArray;
+    for (let i = 0; i < seperatorArray.length; i++) {
+      if (text.split(seperatorArray[i]).length > 1) {
+        seperatedTextArray = text.split(seperatorArray[i]);
+      }
+    }
+    if (!seperatedTextArray) {
+      seperatedTextArray = text.match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+      );
+    }
+    // @ts-ignore
+    var capitalizeCaseText = seperatedTextArray
+      .map(function (word) {
+        return word.substr(0).toUpperCase();
+      })
+      .join(" ");
+    return capitalizeCaseText;
+  }
+
+  toLowerCase(text: string) {
+    const seperatorArray = ["_", "-", " "];
+    let seperatedTextArray;
+    for (let i = 0; i < seperatorArray.length; i++) {
+      if (text.split(seperatorArray[i]).length > 1) {
+        seperatedTextArray = text.split(seperatorArray[i]);
+      }
+    }
+    if (!seperatedTextArray) {
+      seperatedTextArray = text.match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+      );
+    }
+    // @ts-ignore
+    var lowerCaseText = seperatedTextArray
+      .map(function (word) {
+        return word.substr(0).toLowerCase();
+      })
+      .join(" ");
+    return lowerCaseText;
+  }
+
   mapFunctionToArguments(selectedCase: string, text: string): string {
     switch (selectedCase) {
       case "Pascal Case":
@@ -182,6 +299,12 @@ export class ChangeCase implements vscode.CodeActionProvider {
         return this.toFlatCase(text);
       case "Constant Case":
         return this.toConstantCase(text);
+      case "Title Case":
+        return this.toTitleCase(text);
+      case "Capitalize Case":
+        return this.toCapitalizeCase(text);
+      case "Lower Case":
+        return this.toLowerCase(text);
       default:
         return "Errors";
     }
