@@ -26,7 +26,7 @@ This extension allows you to convert the selected text into different case. Supp
 
 **2. Click on the icon, it will give the options on change the case and select any option from the dropdown**\
  \
- ![Alt text](https://i.ibb.co/VvYHQ45/img2.png)\
+ ![Alt text](https://i.ibb.co/VvYHQ45/img2.png)
 
 **3. The selected text case will gets changed**\
  \
@@ -34,9 +34,33 @@ This extension allows you to convert the selected text into different case. Supp
 
 > Language Supported: javascript, typescript, javascriptreact, typescriptreact, html, css, less, scss, sass, python, json, markdown
 
+## **Customizing the Case Change Options**
+
+You can add only a subset of all supported Case Change options as per your preference and usage, to keep the Case Change list short and more handy.
+
+You need to change the default json (**settings.json**) in your VS Code settings (**Ctrl + ,**).
+\
+ ![Alt text](https://i.ibb.co/rdvNTfy/setting-Img.png)
+
+```json
+Following is the default JSON that support all casing, Change the value to false which you don't want to use.
+{
+  "snakeCase": true,
+  "camelCase": true,
+  "upperCase": true,
+  "flatCase": true,
+  "kebabCase": true,
+  "constantCase": true,
+  "pascalCase": true,
+  "titleCase": true,
+  "capitalizeCase": true,
+  "lowerCase": true
+}
+```
+
 ## Release Notes
 
-### 1.0.0
+### 0.1.0
 
 Initial release of Change Case
 
@@ -51,5 +75,9 @@ Added Title Case, Capitalize Case and Lower Case
 ### 0.3.4
 
 Fixed minor bugs
+
+### 1.0.0
+
+Added the Case Change Configuration option
 
 **Enjoy!**

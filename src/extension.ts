@@ -1,3 +1,4 @@
+import { settings } from "cluster";
 import * as vscode from "vscode";
 
 const COMMAND = "case-change";
@@ -113,18 +114,37 @@ export class ChangeCase implements vscode.CodeActionProvider {
     );
 
     changeToCamelCase.isPreferred = true;
-    return [
-      changeToSnakeCase,
-      changeToCamelCase,
-      changeToKebabCase,
-      changeToCapitalCase,
-      changeToLowerCase,
-      changeToConstantCase,
-      changeToPascalCase,
-      changeToTitleCase,
-      changeToCapitalizeCase,
-      changeToLowerCaseWithSpaces,
+    const preferredCases: any = [];
+    const settingToFunctionMapping: any = {
+      snakeCase: changeToSnakeCase,
+      camelCase: changeToCamelCase,
+      upperCase: changeToCapitalCase,
+      flatCase: changeToLowerCase,
+      kebabCase: changeToKebabCase,
+      constantCase: changeToConstantCase,
+      pascalCase: changeToPascalCase,
+      titleCase: changeToTitleCase,
+      capitalizeCase: changeToCapitalizeCase,
+      lowerCase: changeToLowerCaseWithSpaces,
+    };
+    const caseSettings = [
+      "snakeCase",
+      "camelCase",
+      "upperCase",
+      "flatCase",
+      "kebabCase",
+      "constantCase",
+      "pascalCase",
+      "titleCase",
+      "capitalizeCase",
+      "lowerCase",
     ];
+    caseSettings.map((setting: string) => {
+      if (vscode.workspace.getConfiguration("case.setting")[setting]) {
+        preferredCases.push(settingToFunctionMapping[setting]);
+      }
+    });
+    return preferredCases;
   }
 
   toConstantCase(text: string) {

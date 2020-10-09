@@ -3,7 +3,7 @@
   "displayName": "Case Change",
   "publisher": "AkankshaSingh872",
   "description": "It will change the selected text case to Snakecase, Camelcase, KebabCase, UpperCase or LowerCase",
-  "version": "0.3.4",
+  "version": "1.0.0",
   "icon": "static/icon.png",
   "author": {
     "name": "Akanksha Singh"
@@ -63,5 +63,28 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Akanksha872/changeCaseVsExtension.git"
+  },
+  "contributes": {
+    "configuration": {
+      "title": "Case Change",
+      "properties": {
+        "case.setting": {
+          "type": "object",
+          "default": {
+            "snakeCase": true,
+            "camelCase": true,
+            "upperCase": true,
+            "flatCase": true,
+            "kebabCase": true,
+            "constantCase": true,
+            "pascalCase": true,
+            "titleCase": true,
+            "capitalizeCase": true,
+            "lowerCase": true
+          },
+          "description": "Specifies the case which you want to use."
+        }
+      }
+    }
   }
 }
