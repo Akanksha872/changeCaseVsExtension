@@ -32,7 +32,7 @@ This extension allows you to convert the selected text into different case. Supp
  \
  ![Alt text](https://i.ibb.co/yV0JS8K/img3.png)
 
-> Language Supported: javascript, typescript, javascriptreact, typescriptreact, html, css, less, scss, sass, python, json, markdown
+> Language Supported: javascript, typescript, javascriptreact, typescriptreact, html, css, less, scss, sass, python, json, markdown, go
 
 ## **Customizing the Case Change Options**
 
