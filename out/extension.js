@@ -17,6 +17,7 @@ function activate(context) {
         { scheme: "file", language: "json" },
         { scheme: "file", language: "javascriptreact" },
         { scheme: "file", language: "sass" },
+        { scheme: "file", language: "go" },
     ], new ChangeCase(), {
         providedCodeActionKinds: ChangeCase.providedCodeActionKinds,
     }));
@@ -37,29 +38,72 @@ class ChangeCase {
         const changeToKebabCase = this.createFix(document, range, "Kebab Case", text);
         const changeToConstantCase = this.createFix(document, range, "Constant Case", text);
         const changeToPascalCase = this.createFix(document, range, "Pascal Case", text);
+        const changeToTitleCase = this.createFix(document, range, "Title Case", text);
+        const changeToCapitalizeCase = this.createFix(document, range, "Capitalize Case", text);
+        const changeToLowerCaseWithSpaces = this.createFix(document, range, "Lower Case", text);
         changeToCamelCase.isPreferred = true;
-        return [
-            changeToSnakeCase,
-            changeToCamelCase,
-            changeToKebabCase,
-            changeToCapitalCase,
-            changeToLowerCase,
-            changeToConstantCase,
-            changeToPascalCase,
+        const preferredCases = [];
+        const settingToFunctionMapping = {
+            snakeCase: changeToSnakeCase,
+            camelCase: changeToCamelCase,
+            upperCase: changeToCapitalCase,
+            flatCase: changeToLowerCase,
+            kebabCase: changeToKebabCase,
+            constantCase: changeToConstantCase,
+            pascalCase: changeToPascalCase,
+            titleCase: changeToTitleCase,
+            capitalizeCase: changeToCapitalizeCase,
+            lowerCase: changeToLowerCaseWithSpaces,
+        };
+        const caseSettings = [
+            "snakeCase",
+            "camelCase",
+            "upperCase",
+            "flatCase",
+            "kebabCase",
+            "constantCase",
+            "pascalCase",
+            "titleCase",
+            "capitalizeCase",
+            "lowerCase",
         ];
+        caseSettings.map((setting) => {
+            if (vscode.workspace.getConfiguration("case.setting")[setting]) {
+                preferredCases.push(settingToFunctionMapping[setting]);
+            }
+        });
+        return preferredCases;
     }
     toConstantCase(text) {
+        const seperatorArray = ["_", "-", " "];
+        let seperatedTextArray;
+        for (let i = 0; i < seperatorArray.length; i++) {
+            if (text.split(seperatorArray[i]).length > 1) {
+                seperatedTextArray = text.split(seperatorArray[i]);
+            }
+        }
+        if (!seperatedTextArray) {
+            seperatedTextArray = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
+        }
         // @ts-ignore
-        var constantCaseText = text
-            .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+        var constantCaseText = seperatedTextArray
             .map((x) => x.toUpperCase())
             .join("_");
         return constantCaseText;
     }
     toSnakeCase(text) {
+        const seperatorArray = ["_", "-", " "];
+        let seperatedTextArray;
+        for (let i = 0; i < seperatorArray.length; i++) {
+            if (text.split(seperatorArray[i]).length > 1) {
+                seperatedTextArray = text.split(seperatorArray[i]);
+            }
+        }
+        if (!seperatedTextArray) {
+            seperatedTextArray = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
+        }
         // @ts-ignore
-        var snakeCaseText = text
-            .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+        var snakeCaseText = seperatedTextArray
             .map((x) => x.toLowerCase())
             .join("_");
         return snakeCaseText;
@@ -72,9 +116,18 @@ class ChangeCase {
         return camelCaseText;
     }
     toKebabCase(text) {
+        const seperatorArray = ["_", "-", " "];
+        let seperatedTextArray;
+        for (let i = 0; i < seperatorArray.length; i++) {
+            if (text.split(seperatorArray[i]).length > 1) {
+                seperatedTextArray = text.split(seperatorArray[i]);
+            }
+        }
+        if (!seperatedTextArray) {
+            seperatedTextArray = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
+        }
         // @ts-ignore
-        var kebabCaseText = text
-            .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
+        var kebabCaseText = seperatedTextArray
             .map((x) => x.toLowerCase())
             .join("-");
         return kebabCaseText;
@@ -98,6 +151,63 @@ class ChangeCase {
         var covertToCamel = this.toCamelCase(text);
         return covertToCamel.toUpperCase();
     }
+    toTitleCase(text) {
+        const seperatorArray = ["_", "-", " "];
+        let seperatedTextArray;
+        for (let i = 0; i < seperatorArray.length; i++) {
+            if (text.split(seperatorArray[i]).length > 1) {
+                seperatedTextArray = text.split(seperatorArray[i]);
+            }
+        }
+        if (!seperatedTextArray) {
+            seperatedTextArray = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
+        }
+        // @ts-ignore
+        var titleCaseText = seperatedTextArray
+            .map(function (word) {
+            return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+        })
+            .join(" ");
+        return titleCaseText;
+    }
+    toCapitalizeCase(text) {
+        const seperatorArray = ["_", "-", " "];
+        let seperatedTextArray;
+        for (let i = 0; i < seperatorArray.length; i++) {
+            if (text.split(seperatorArray[i]).length > 1) {
+                seperatedTextArray = text.split(seperatorArray[i]);
+            }
+        }
+        if (!seperatedTextArray) {
+            seperatedTextArray = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
+        }
+        // @ts-ignore
+        var capitalizeCaseText = seperatedTextArray
+            .map(function (word) {
+            return word.substr(0).toUpperCase();
+        })
+            .join(" ");
+        return capitalizeCaseText;
+    }
+    toLowerCase(text) {
+        const seperatorArray = ["_", "-", " "];
+        let seperatedTextArray;
+        for (let i = 0; i < seperatorArray.length; i++) {
+            if (text.split(seperatorArray[i]).length > 1) {
+                seperatedTextArray = text.split(seperatorArray[i]);
+            }
+        }
+        if (!seperatedTextArray) {
+            seperatedTextArray = text.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
+        }
+        // @ts-ignore
+        var lowerCaseText = seperatedTextArray
+            .map(function (word) {
+            return word.substr(0).toLowerCase();
+        })
+            .join(" ");
+        return lowerCaseText;
+    }
     mapFunctionToArguments(selectedCase, text) {
         switch (selectedCase) {
             case "Pascal Case":
@@ -114,6 +224,12 @@ class ChangeCase {
                 return this.toFlatCase(text);
             case "Constant Case":
                 return this.toConstantCase(text);
+            case "Title Case":
+                return this.toTitleCase(text);
+            case "Capitalize Case":
+                return this.toCapitalizeCase(text);
+            case "Lower Case":
+                return this.toLowerCase(text);
             default:
                 return "Errors";
         }

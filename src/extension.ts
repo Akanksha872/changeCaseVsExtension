@@ -19,6 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
         { scheme: "file", language: "json" },
         { scheme: "file", language: "javascriptreact" },
         { scheme: "file", language: "sass" },
+        { scheme: "file", language: "go" },
       ],
       new ChangeCase(),
       {
