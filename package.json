@@ -37,7 +37,8 @@
     "onLanguage:json",
     "onLanguage:javascriptreact",
     "onLanguage:sass",
-    "onLanguage:go"
+    "onLanguage:go",
+    "onLanguage:vue"
   ],
   "main": "./out/extension.js",
   "scripts": {
